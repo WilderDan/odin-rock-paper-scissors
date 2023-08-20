@@ -1,8 +1,8 @@
-const getComputerChoice = () => {
-  let options = ["Rock", "Paper", "Scissors"];
-  let choice = getRandomInt(0, 2);
+const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
 
-  return options[choice];
+const getComputerChoice = () => {
+  let choice = getRandomInt(0, 2);
+  return OPTIONS[choice];
 };
 
 const getRandomInt = (min, max) => {
@@ -12,6 +12,11 @@ const getRandomInt = (min, max) => {
 const playRound = (playerSelection, computerSelection) => {
   let player = playerSelection.toUpperCase();
   let computer = computerSelection.toUpperCase();
+
+  // Error
+  if (!OPTIONS.includes(player) || !OPTIONS.includes(computer)) {
+    return null;
+  }
 
   if (player === computer) {
     return 0;
@@ -57,6 +62,12 @@ const getLosesAgainst = (selection) => {
 const game = (rounds) => {
   for (let i = 0; i < rounds; i++) {
     let playerSelection = prompt("Rock, paper, or scissors?");
+
+    if (!OPTIONS.includes(playerSelection.toUpperCase())) {
+      console.log("Invalid selection. Skipping round.");
+      continue;
+    }
+
     let result = playRound(playerSelection, getComputerChoice());
     console.log(getResultMessage(playerSelection, result));
   }
