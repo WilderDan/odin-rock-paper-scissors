@@ -31,7 +31,7 @@ const playRound = (playerSelection, computerSelection) => {
   }
 };
 
-const getResultMessage = (playerSelection, result) => {
+const getRoundResultMessage = (playerSelection, result) => {
   let selection = playerSelection.toUpperCase();
 
   if (result === 0) {
@@ -60,6 +60,9 @@ const getLosesAgainst = (selection) => {
 };
 
 const game = (rounds) => {
+  // 0 index is player's score. 1 for computer
+  let score = [0, 0];
+
   for (let i = 0; i < rounds; i++) {
     let playerSelection = prompt("Rock, paper, or scissors?");
 
@@ -69,6 +72,30 @@ const game = (rounds) => {
     }
 
     let result = playRound(playerSelection, getComputerChoice());
-    console.log(getResultMessage(playerSelection, result));
+    updateScore(result, score);
+    console.log(getRoundResultMessage(playerSelection, result));
   }
+
+  console.log(getGameResultMessage(score));
+};
+
+const updateScore = (result, score) => {
+  const PLAYER = 0;
+  const COMPUTER = 1;
+
+  if (result === 1) {
+    ++score[PLAYER];
+  } else if (result === -1) {
+    ++score[COMPUTER];
+  }
+};
+
+const getGameResultMessage = (score) => {
+  const player = score[0];
+  const computer = score[1];
+
+  const result =
+    player > computer ? "You Win!" : player < computer ? "You Lose!" : "Tie!";
+
+  return result + ` ${player} - ${computer}`;
 };
