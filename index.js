@@ -53,3 +53,11 @@ const getLosesAgainst = (selection) => {
 
   return s === "ROCK" ? "PAPER" : s === "PAPER" ? "SCISSORS" : "ROCK";
 };
+
+const game = (rounds) => {
+  for (let i = 0; i < rounds; i++) {
+    let playerSelection = prompt("Rock, paper, or scissors?");
+    let result = playRound(playerSelection, getComputerChoice());
+    console.log(getResultMessage(playerSelection, result));
+  }
+};
