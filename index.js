@@ -1,5 +1,15 @@
 const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
 
+const buttons = document.getElementsByClassName("playerSelection");
+
+Array.from(buttons).forEach((button) =>
+  addEventListener("click", handlePlayerSelection)
+);
+
+function handlePlayerSelection(e) {
+  console.log(e.target.name);
+}
+
 const getComputerChoice = () => {
   let choice = getRandomInt(0, 2);
   return OPTIONS[choice];
