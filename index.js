@@ -1,5 +1,8 @@
 const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
+const PLAYER = 0;
+const COMPUTER = 1;
 
+let score = [0, 0];
 const buttons = document.querySelectorAll(".playerSelection");
 
 buttons.forEach((button) =>
@@ -10,20 +13,17 @@ function handlePlayerSelection(e) {
   const playerSelection = e.currentTarget.name;
   const result = playRound(playerSelection, getComputerChoice());
 
+  updateScore(result);
   updateUI(playerSelection, result);
 }
 
 function updateUI(selection, result) {
   let playerScoreElem = document.getElementById("playerScore");
-  let playerScore = +playerScoreElem.innerText;
-
   let computerScoreElem = document.getElementById("computerScore");
-  let computerScore = +computerScoreElem.innerText;
-
-  if (result > 0) playerScoreElem.innerText = ++playerScore;
-  else if (result < 0) computerScoreElem.innerText = ++computerScore;
-
   let resultMessageElem = document.getElementById("resultMessage");
+
+  playerScoreElem.innerText = score[PLAYER];
+  computerScoreElem.innerText = score[COMPUTER];
   resultMessageElem.innerText = getRoundResultMessage(selection, result);
 }
 
@@ -106,10 +106,7 @@ const game = (rounds) => {
   console.log(getGameResultMessage(score));
 };
 
-const updateScore = (result, score) => {
-  const PLAYER = 0;
-  const COMPUTER = 1;
-
+const updateScore = (result) => {
   if (result === 1) {
     ++score[PLAYER];
   } else if (result === -1) {
