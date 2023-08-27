@@ -7,7 +7,26 @@ buttons.forEach((button) =>
 );
 
 function handlePlayerSelection(e) {
-  console.log(e.currentTarget.name);
+  const playerSelection = e.currentTarget.name;
+  const result = playRound(playerSelection, getComputerChoice());
+
+  updateUI(playerSelection, result);
+}
+
+function updateUI(selection, result) {
+  let playerScoreElem = document.getElementById("playerScore");
+  let playerScore = +playerScoreElem.innerText;
+
+  let computerScoreElem = document.getElementById("computerScore");
+  let computerScore = +computerScoreElem.innerText;
+
+  if (result > 0) playerScoreElem.innerText = ++playerScore;
+  else if (result < 0) computerScoreElem.innerText = ++computerScore;
+
+  let resultMessageElem = document.getElementById("resultMessage");
+  resultMessageElem.innerText = getRoundResultMessage(selection, result);
+
+  debugger;
 }
 
 const getComputerChoice = () => {
