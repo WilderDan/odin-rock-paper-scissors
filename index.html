@@ -7,18 +7,25 @@
     <link href="style.css" rel="stylesheet" />
   </head>
   <body>
-    <button name="ROCK" class="playerSelection">
-      <img src="./images/rock.svg" alt="rock" />
-      <span class="playerSelection-text">ROCK</span>
-    </button>
-    <button name="PAPER" class="playerSelection">
-      <img src="./images/paper.svg" alt="paper" />
-      <span class="playerSelection-text">PAPER</span>
-    </button>
-    <button name="SCISSORS" class="playerSelection">
-      <img src="./images/scissors.svg" alt="scissors" />
-      <span class="playerSelection-text">SCISSORS</span>
-    </button>
+    <h1>
+      Score: <span id="playerScore" class="score">0</span> -
+      <span id="computerScore" class="score">0</span>
+    </h1>
+    <div class="playerSelectionContainer">
+      <button name="ROCK" class="playerSelection">
+        <img src="./images/rock.svg" alt="rock" />
+        <span class="playerSelection-text">ROCK</span>
+      </button>
+      <button name="PAPER" class="playerSelection">
+        <img src="./images/paper.svg" alt="paper" />
+        <span class="playerSelection-text">PAPER</span>
+      </button>
+      <button name="SCISSORS" class="playerSelection">
+        <img src="./images/scissors.svg" alt="scissors" />
+        <span class="playerSelection-text">SCISSORS</span>
+      </button>
+    </div>
+    <p class="resultMessage">Placeholder text</p>
 
     <script defer="defer" src="index.js"></script>
   </body>
