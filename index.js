@@ -1,13 +1,13 @@
 const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
 
-const buttons = document.getElementsByClassName("playerSelection");
+const buttons = document.querySelectorAll(".playerSelection");
 
-Array.from(buttons).forEach((button) =>
-  addEventListener("click", handlePlayerSelection)
+buttons.forEach((button) =>
+  button.addEventListener("click", handlePlayerSelection)
 );
 
 function handlePlayerSelection(e) {
-  console.log(e.target.name);
+  console.log(e.currentTarget.name);
 }
 
 const getComputerChoice = () => {
