@@ -25,8 +25,6 @@ function updateUI(selection, result) {
 
   let resultMessageElem = document.getElementById("resultMessage");
   resultMessageElem.innerText = getRoundResultMessage(selection, result);
-
-  debugger;
 }
 
 const getComputerChoice = () => {
