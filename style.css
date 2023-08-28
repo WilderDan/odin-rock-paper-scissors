@@ -1,6 +1,7 @@
 html,
 body {
   min-height: 100vh;
+  font-family: "Roboto", sans-serif;
 }
 
 .playerSelection {
@@ -14,7 +15,7 @@ body {
 }
 
 button {
-  background-color: black;
+  background-color: #101822;
 }
 
 img {
