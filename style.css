@@ -2,9 +2,14 @@
   width: 200px;
   height: auto;
   padding: 2px;
-  box-shadow: 10px 10px;
+  box-shadow: 8px 8px;
+  color: #1df205;
   border-radius: 10%;
   padding: 10px;
+}
+
+button {
+  background-color: black;
 }
 
 img {
@@ -32,4 +37,9 @@ h1 {
 #resultMessage {
   text-align: center;
   font-size: 24px;
+}
+
+body {
+  background-color: #1b2838;
+  color: #f6f6f7;
 }
