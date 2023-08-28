@@ -1,169 +1,102 @@
-const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
-const PLAYER = 0;
-const COMPUTER = 1;
+let game = {
+  score: {
+    player: 0,
+    computer: 0,
+  },
 
-let score = [0, 0];
-const buttons = document.querySelectorAll(".playerSelection");
+  over: false,
+  message: "",
+};
+
+const playerChoices = document.querySelectorAll(".playerSelection");
 const resetBtn = document.querySelector("#reset-btn");
-resetBtn.addEventListener("click", handleReset);
 
-buttons.forEach((button) =>
-  button.addEventListener("click", handlePlayerSelection)
+playerChoices.forEach((choice) =>
+  choice.addEventListener("click", handlePlayerSelection)
 );
 
+resetBtn.addEventListener("click", handleReset);
+
+updateUI();
+
 function handlePlayerSelection(e) {
+  if (game.over) return;
+
   const playerSelection = e.currentTarget.name;
-  const result = playRound(playerSelection, getComputerChoice());
-
-  updateScore(result);
-  updateUI(playerSelection, result);
-
-  if (isGameOver()) handleGameOver();
+  playRound(playerSelection, getComputerChoice());
+  checkForGameOver();
+  updateUI();
 }
 
-function handleGameOver() {
-  displayPlayerButtons(false);
-
-  setResultMessage(
-    `You ${score[PLAYER] > score[COMPUTER] ? "Win" : "Lose"}! Game Over!`
-  );
-
-  displayResetBtn(true);
+function checkForGameOver() {
+  if (game.score.player >= 5 || game.score.computer >= 5) {
+    const winner =
+      game.score.player > game.score.computer ? "Player" : "Computer";
+    game.over = true;
+    game.message = `Game Over! ${winner} wins.`;
+  }
 }
 
 function handleReset() {
-  displayResetBtn(false);
-  score = [0, 0];
+  game.score.player = 0;
+  game.score.computer = 0;
+  game.over = false;
+  game.message = "";
 
-  // temp -> should refactor
-  updateUI("ROCK", 0);
-
-  setResultMessage("");
-  displayPlayerButtons(true);
-
-  debugger;
-}
-
-function displayPlayerButtons(show) {
-  buttons.forEach((button) => (button.style.display = show ? "block" : "none"));
+  updateUI();
 }
 
 function displayResetBtn(show) {
   resetBtn.style.display = show ? "block" : "none";
 }
 
-function setResultMessage(str) {
-  let resultMessageElem = document.getElementById("resultMessage");
-  resultMessageElem.innerText = str;
-}
-
-function isGameOver() {
-  return score[PLAYER] >= 5 || score[COMPUTER] >= 5;
-}
-
-function updateUI(selection, result) {
+function updateUI() {
   let playerScoreElem = document.getElementById("playerScore");
   let computerScoreElem = document.getElementById("computerScore");
   let resultMessageElem = document.getElementById("resultMessage");
 
-  playerScoreElem.innerText = score[PLAYER];
-  computerScoreElem.innerText = score[COMPUTER];
-  resultMessageElem.innerText = getRoundResultMessage(selection, result);
-}
-
-const getComputerChoice = () => {
-  let choice = getRandomInt(0, 2);
-  return OPTIONS[choice];
-};
-
-const getRandomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const playRound = (playerSelection, computerSelection) => {
-  let player = playerSelection.toUpperCase();
-  let computer = computerSelection.toUpperCase();
-
-  // Error
-  if (!OPTIONS.includes(player) || !OPTIONS.includes(computer)) {
-    return null;
+  if (game.over) {
+    displayResetBtn(true);
+  } else {
+    displayResetBtn(false);
   }
 
+  playerScoreElem.innerText = game.score.player;
+  computerScoreElem.innerText = game.score.computer;
+  resultMessageElem.innerText = game.message;
+}
+
+function getComputerChoice() {
+  const OPTIONS = ["ROCK", "PAPER", "SCISSORS"];
+  let choice = getRandomInt(0, 2);
+  return OPTIONS[choice];
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function playRound(player, computer) {
+  let beforeRoundScore = game.score.player;
+
   if (player === computer) {
-    return 0;
+    game.message = "Tie!";
+    return;
   }
 
   if (player === "ROCK") {
-    return computer === "PAPER" ? -1 : 1;
+    if (computer === "PAPER") ++game.score.computer;
+    else ++game.score.player;
   } else if (player === "PAPER") {
-    return computer === "ROCK" ? 1 : -1;
+    if (computer === "ROCK") ++game.score.player;
+    else ++game.score.computer;
   } else if (player === "SCISSORS") {
-    return computer === "ROCK" ? -1 : 1;
-  }
-};
-
-const getRoundResultMessage = (playerSelection, result) => {
-  let selection = playerSelection.toUpperCase();
-
-  if (result === 0) {
-    return "Tie!";
+    if (computer === "ROCK") ++game.score.computer;
+    else ++game.score.player;
   }
 
-  if (result === 1) {
-    return "You win! " + selection + " beats " + getWinsAgainst(selection);
-  }
-
-  if (result === -1) {
-    return "You Lose! " + getLosesAgainst(selection) + " beats " + selection;
-  }
-};
-
-const getWinsAgainst = (selection) => {
-  let s = selection.toUpperCase();
-
-  return s === "ROCK" ? "SCISSORS" : s === "PAPER" ? "ROCK" : "PAPER";
-};
-
-const getLosesAgainst = (selection) => {
-  let s = selection.toUpperCase();
-
-  return s === "ROCK" ? "PAPER" : s === "PAPER" ? "SCISSORS" : "ROCK";
-};
-
-const game = (rounds) => {
-  // 0 index is player's score. 1 for computer
-  let score = [0, 0];
-
-  for (let i = 0; i < rounds; i++) {
-    let playerSelection = prompt("Rock, paper, or scissors?");
-
-    if (!OPTIONS.includes(playerSelection.toUpperCase())) {
-      console.log("Invalid selection. Skipping round.");
-      continue;
-    }
-
-    let result = playRound(playerSelection, getComputerChoice());
-    updateScore(result, score);
-    console.log(getRoundResultMessage(playerSelection, result));
-  }
-
-  console.log(getGameResultMessage(score));
-};
-
-const updateScore = (result) => {
-  if (result === 1) {
-    ++score[PLAYER];
-  } else if (result === -1) {
-    ++score[COMPUTER];
-  }
-};
-
-const getGameResultMessage = (score) => {
-  const player = score[0];
-  const computer = score[1];
-
-  const result =
-    player > computer ? "You Win!" : player < computer ? "You Lose!" : "Tie!";
-
-  return result + ` ${player} - ${computer}`;
-};
+  game.message =
+    game.score.player > beforeRoundScore
+      ? `You Win! ${player} beats ${computer}`
+      : `You Lose! ${computer} beats ${player}`;
+}
