@@ -7,7 +7,6 @@ body {
 .playerSelection {
   width: 200px;
   height: auto;
-  padding: 2px;
   box-shadow: 8px 8px;
   color: #1df205;
   border-radius: 10%;
@@ -16,6 +15,15 @@ body {
 
 button {
   background-color: #101822;
+}
+
+#reset-btn {
+  color: #1df205;
+  border-radius: 10%;
+  padding: 10px;
+  box-shadow: 8px 8px;
+  font-size: 24px;
+  display: none;
 }
 
 img {
@@ -59,4 +67,9 @@ footer {
   font-size: 24px;
   padding: 24px;
   background-color: #101822;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
 }

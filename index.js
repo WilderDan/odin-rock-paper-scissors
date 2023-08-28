@@ -4,6 +4,8 @@ const COMPUTER = 1;
 
 let score = [0, 0];
 const buttons = document.querySelectorAll(".playerSelection");
+const resetBtn = document.querySelector("#reset-btn");
+resetBtn.addEventListener("click", handleReset);
 
 buttons.forEach((button) =>
   button.addEventListener("click", handlePlayerSelection)
@@ -15,6 +17,48 @@ function handlePlayerSelection(e) {
 
   updateScore(result);
   updateUI(playerSelection, result);
+
+  if (isGameOver()) handleGameOver();
+}
+
+function handleGameOver() {
+  displayPlayerButtons(false);
+
+  setResultMessage(
+    `You ${score[PLAYER] > score[COMPUTER] ? "Win" : "Lose"}! Game Over!`
+  );
+
+  displayResetBtn(true);
+}
+
+function handleReset() {
+  displayResetBtn(false);
+  score = [0, 0];
+
+  // temp -> should refactor
+  updateUI("ROCK", 0);
+
+  setResultMessage("");
+  displayPlayerButtons(true);
+
+  debugger;
+}
+
+function displayPlayerButtons(show) {
+  buttons.forEach((button) => (button.style.display = show ? "block" : "none"));
+}
+
+function displayResetBtn(show) {
+  resetBtn.style.display = show ? "block" : "none";
+}
+
+function setResultMessage(str) {
+  let resultMessageElem = document.getElementById("resultMessage");
+  resultMessageElem.innerText = str;
+}
+
+function isGameOver() {
+  return score[PLAYER] >= 5 || score[COMPUTER] >= 5;
 }
 
 function updateUI(selection, result) {
