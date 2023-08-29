@@ -11,13 +11,19 @@ let game = {
 const playerChoices = document.querySelectorAll(".playerSelection");
 const resetBtn = document.querySelector("#reset-btn");
 
+resetBtn.disabled = true;
+resetBtn.addEventListener("click", handleReset);
+window.addEventListener("keydown", handleKeyDown);
 playerChoices.forEach((choice) =>
   choice.addEventListener("click", handlePlayerSelection)
 );
 
-resetBtn.addEventListener("click", handleReset);
-
 updateUI();
+
+function handleKeyDown(e) {
+  const button = document.querySelector(`button[data-key="${e.code}"]`);
+  if (button) button.click();
+}
 
 function handlePlayerSelection(e) {
   if (game.over) return;
@@ -34,6 +40,7 @@ function checkForGameOver() {
       game.score.player > game.score.computer ? "Player" : "Computer";
     game.over = true;
     game.message = `Game Over! ${winner} wins.`;
+    resetBtn.disabled = false;
   }
 }
 
@@ -42,6 +49,7 @@ function handleReset() {
   game.score.computer = 0;
   game.over = false;
   game.message = "";
+  resetBtn.disabled = true;
 
   updateUI();
 }
